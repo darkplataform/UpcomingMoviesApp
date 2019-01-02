@@ -2,22 +2,17 @@ package com.arctouch.upcomingmoviesapp.network
 
 
 import android.util.Log
-import androidx.appcompat.R
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import com.arctouch.upcomingmoviesapp.MainActivity
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.notNullValue
-import org.hamcrest.MatcherAssert.assertThat
+import com.arctouch.upcomingmoviesapp.movies.MoviesActivity
 import org.junit.*
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class) class GetCallsTest {
 
-    @Rule @JvmField var activityTestRule = ActivityTestRule(MainActivity::class.java)
+    @Rule @JvmField var activityTestRule = ActivityTestRule(MoviesActivity::class.java)
 
     @get:Rule var instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -28,19 +23,19 @@ import org.junit.runner.RunWith
     }
 
     @Test fun insertTaskAndGetById() {
-        TMdb.getLastMovies("2019-01-01").observe(activityTestRule.activity, Observer {
+        TMdb.getLastMovies("2019-01-01",1).observe(activityTestRule.activity, Observer {
             when (it?.status) {
                 Resource.LOADING -> {
-                    Log.d("MainActivity", "--> Loading...")
+                    Log.d("MoviesActivity", "--> Loading...")
 
                 }
                 Resource.SUCCESS -> {
-                    Log.d("MainActivity", "--> Success! | loaded ${it.data?.size ?: 0} records.")
-                    Log.d("MainActivity", "--> Success! | ${it.data}")
+                    Log.d("MoviesActivity", "--> Success! | loaded ${it.data?.size ?: 0} records.")
+                    Log.d("MoviesActivity", "--> Success! | ${it.data}")
                     Assert.assertEquals(20,it.data?.size ?: 0)
                 }
                 Resource.ERROR -> {
-                    Log.d("MainActivity", "--> Error!")
+                    Log.d("MoviesActivity", "--> Error!")
                     Assert.fail()
                 }
             }

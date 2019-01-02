@@ -35,7 +35,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // App's dependencies, including test
-    implementation "androidx.appcompat:appcompat:$rootProject.androidXSupportLibVersion"
+    implementation "androidx.appcompat:appcompat:$rootProject.androidXAppCompatVersion"
     implementation "androidx.cardview:cardview:$rootProject.androidXSupportLibVersion"
     implementation "com.google.android.material:material:$rootProject.androidXMaterialVersion"
     implementation "androidx.recyclerview:recyclerview:$rootProject.androidXSupportLibVersion"
@@ -83,12 +83,24 @@ dependencies {
     androidTestImplementation "com.google.android.material:material:$rootProject.androidXMaterialVersion"
     androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$rootProject.androidXEspressoTestVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.androidXRoomVersion"
-    androidTestImplementation "androidx.arch.core:core-testing:2.0.0-rc01"
+    androidTestImplementation "androidx.arch.core:core-testing:2.0.0"
 
     // Other
-    implementation "com.google.code.findbugs:jsr305:3.0.1"
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 
 
 }
 
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == "com.android.support") {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion "26.+"
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-package com.arctouch.upcomingmoviesapp
+package com.arctouch.upcomingmoviesapp.movies
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -8,21 +8,32 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.widget.Toolbar
+import android.view.View
+import com.arctouch.upcomingmoviesapp.R
+import com.arctouch.upcomingmoviesapp.network.TMdb
+import com.arctouch.upcomingmoviesapp.util.replaceFragmentInActivity
+import com.arctouch.upcomingmoviesapp.util.setupActionBar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MoviesActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private val CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY"
+
+    private lateinit var tasksPresenter: MoviesPresenter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view,  StringBuilder("Replace with your own action"), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+        fab.visibility = View.GONE
 
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -31,6 +42,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        val moviesFragment = supportFragmentManager.findFragmentById(R.id.contentFrame)
+                as MoviesFragment? ?: MoviesFragment.newInstance().also {
+            replaceFragmentInActivity(it, R.id.contentFrame)
+        }
+
+        // Create the presenter
+        tasksPresenter = MoviesPresenter(moviesFragment,
+                this).apply {
+            // Load previously saved state, if available.
+            if (savedInstanceState != null) {
+
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -43,7 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
+        //menuInflater.inflate(R.menu.main, menu)
         return true
     }
 

@@ -9,11 +9,12 @@ ext {
     // App dependencies
     supportLibraryVersion = '28.0.0'
     androidXSupportLibVersion = '1.0.0'
+    androidXAppCompatVersion = '1.0.2'
     androidXMaterialVersion = '1.1.0-alpha02'
     androidXEspressoVersion = '3.1.0'
     androidXEspressoTestVersion = '3.+'
     androidXRoomVersion = '2.0.0-rc01'
-    androidXConstraintLayoutVersion = '1.1.2'
+    androidXConstraintLayoutVersion = '1.1.3'
     androidXroomVersion = '2.0.0-rc01'
     androidXrunnerVersion = '1.1.0'
     guavaVersion = '22.0-android'

@@ -1,5 +1,6 @@
 package com.arctouch.upcomingmoviesapp.network
 
+import com.arctouch.upcomingmoviesapp.data.Movie
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
@@ -10,8 +11,12 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 object TMdb {
-    fun getLastMovies(releaseDate: String) = networkCall<LastMovResponse, List<Movies>> {
-        client = TMdbAPI.tmdbService.getLastMovies(releaseDate)
+    fun getLastMovies(releaseDate: String, page: Int) = networkCall<LastMovResponse, List<Movie>> {
+        client = TMdbAPI.tmdbService.getLastMovies(releaseDate,page)
+    }
+
+    fun getGenres() = networkCall<GenresResponse, List<Genre>> {
+        client = TMdbAPI.tmdbService.getGenres()
     }
 }
 
@@ -29,13 +34,25 @@ object TMdbAPI {
     var tmdbService = retrofit.create<TMdbService>(TMdbService::class.java)
 
     interface TMdbService {
-        @GET("discover/movie?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US&sort_by=release_date.asc&include_adult=false&include_video=false&page=1")
-        fun getLastMovies(@Query("primary_release_date.gte") releaseDate: String): Deferred<Response<LastMovResponse>>
+        @GET("discover/movie?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US&sort_by=primary_release_date.asc&include_adult=false&include_video=false")
+        fun getLastMovies(
+                @Query("primary_release_date.gte") releaseDate: String,
+                @Query("page") page: Int
+        ): Deferred<Response<LastMovResponse>>
+
+        @GET("genre/movie/list?api_key=1f54bd990f1cdfb230adb312546d765d&language=en-US")
+        fun getGenres(): Deferred<Response<GenresResponse>>
     }
 }
 
-data class LastMovResponse(val results: List<Movies>): BaseApiResponse<Movies>(), DataResponse<List<Movies>> {
-    override fun retrieveData(): List<Movies> = results
+data class Genre(val id:Int, val name:String)
+
+data class GenresResponse(val genres: List<Genre>): DataResponse<List<Genre>> {
+    override fun retrieveData(): List<Genre> = genres
+}
+
+data class LastMovResponse(val results: List<Movie>): BaseApiResponse<Movie>(), DataResponse<List<Movie>> {
+    override fun retrieveData(): List<Movie> = results
 }
 
 abstract class BaseApiResponse<T> {
@@ -45,4 +62,3 @@ abstract class BaseApiResponse<T> {
 
 }
 
-data class Movies(val id: Int, val name: String, val full_name: String, val description: String, val git_url:String)
