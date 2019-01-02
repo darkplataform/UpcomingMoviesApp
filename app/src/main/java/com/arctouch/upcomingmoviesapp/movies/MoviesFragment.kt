@@ -205,13 +205,11 @@ class MoviesFragment : Fragment(), MoviesContract.View {
                 text = movie.title
             }
             with(rowView.findViewById<TextView>(R.id.genres)) {
-                var genresText= ""
                 if(movie.genre_ids_text!=null)
-                    for (desc in movie.genre_ids_text) genresText+="$desc "
-                        text=genresText
+                    text=movie.genre_ids_text.joinToString()
             }
             with(rowView.findViewById<TextView>(R.id.releaseDate)) {
-                text = movie.release_date
+                text = "release: ${movie.release_date}"
             }
 
 //            with(rowView.findViewById<CheckBox>(R.id.complete)) {

@@ -40,6 +40,7 @@ class MoviesActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+        toggle.isDrawerIndicatorEnabled=false
 
         nav_view.setNavigationItemSelectedListener(this)
 

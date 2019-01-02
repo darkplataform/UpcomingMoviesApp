@@ -26,6 +26,11 @@ import com.arctouch.upcomingmoviesapp.network.TMdbAPI
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -74,7 +79,7 @@ class MoviesPresenter(private val moviesView: MoviesContract.View,
         // that the app is busy until the response is handled.
         //EspressoIdlingResource.increment() // App is busy until further notice
 
-        val result = TMdb.getLastMovies("2019-01-01",page).observe(moviesActivity, Observer {
+        val result = TMdb.getLastMovies(SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().time),page).observe(moviesActivity, Observer {
             when (it?.status) {
                 Resource.LOADING -> {
                     Log.d("GetLastMovies", "--> Loading...")
