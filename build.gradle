@@ -1,0 +1,57 @@
+// Define versions in a single place
+ext {
+    // Sdk and tools
+    minSdkVersion = 19
+    targetSdkVersion = 28
+    compileSdkVersion = 28
+
+
+    // App dependencies
+    supportLibraryVersion = '28.0.0'
+    androidXSupportLibVersion = '1.0.0'
+    androidXMaterialVersion = '1.1.0-alpha02'
+    androidXEspressoVersion = '3.1.0'
+    androidXEspressoTestVersion = '3.+'
+    androidXRoomVersion = '2.0.0-rc01'
+    androidXConstraintLayoutVersion = '1.1.2'
+    androidXroomVersion = '2.0.0-rc01'
+    androidXrunnerVersion = '1.1.0'
+    guavaVersion = '22.0-android'
+    junitVersion = '4.12'
+    mockitoVersion = '2.8.47'
+    hamcrestVersion = '1.3'
+    runnerVersion = '1.0.2'
+    rulesVersion = '1.0.1'
+    espressoVersion = '3.0.2'
+    roomVersion = "1.0.0"
+    coroutineVersion = "1.1.0"
+}
+
+
+buildscript {
+    ext.kotlin_version = '1.3.11'
+    ext.gradlePluginVersion = '3.2.1'
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
