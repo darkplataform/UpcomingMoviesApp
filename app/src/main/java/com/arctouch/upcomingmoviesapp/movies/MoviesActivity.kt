@@ -10,15 +10,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.arctouch.upcomingmoviesapp.R
-import com.arctouch.upcomingmoviesapp.network.TMdb
 import com.arctouch.upcomingmoviesapp.util.replaceFragmentInActivity
-import com.arctouch.upcomingmoviesapp.util.setupActionBar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MoviesActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-    private val CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY"
 
     private lateinit var tasksPresenter: MoviesPresenter
 

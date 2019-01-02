@@ -37,13 +37,14 @@ import android.widget.ListView
 import android.widget.TextView
 import com.arctouch.upcomingmoviesapp.R
 import com.arctouch.upcomingmoviesapp.data.Movie
+import com.arctouch.upcomingmoviesapp.moviesdetail.MoviesDetailActivity
 import com.arctouch.upcomingmoviesapp.util.showSnackBar
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.movie_item.view.*
 import java.util.ArrayList
 
 /**
- * Display a grid of [Task]s. User can choose to view all, active or completed tasks.
+ * Display a grid of [Movies]s. User can choose to view all or see detail.
  */
 class MoviesFragment : Fragment(), MoviesContract.View {
 
@@ -57,11 +58,11 @@ class MoviesFragment : Fragment(), MoviesContract.View {
 
 
     /**
-     * Listener for clicks on tasks in the ListView.
+     * Listener for clicks on movies in the ListView.
      */
     internal var itemListener: MovieItemListener = object : MovieItemListener {
-        override fun onMovieClick(clickedTask: Movie) {
-            presenter.openMovieDetails(clickedTask)
+        override fun onMovieClick(clickedMovie: Movie) {
+            presenter.openMovieDetails(clickedMovie)
         }
 
         override fun loadMoreMovies(page:Int){
@@ -156,13 +157,13 @@ class MoviesFragment : Fragment(), MoviesContract.View {
     }
 
 
-    override fun showMovieDetailsUi(movieId: String) {
+    override fun showMovieDetailsUi(movie: Movie) {
         // in it's own Activity, since it makes more sense that way and it gives us the flexibility
         // to show some Intent stubbing.
-//        val intent = Intent(context, TaskDetailActivity::class.java).apply {
-//            putExtra(TaskDetailActivity.EXTRA_TASK_ID, taskId)
-//        }
-//        startActivity(intent)
+        val intent = Intent(context, MoviesDetailActivity::class.java).apply {
+            putExtra(MoviesDetailActivity.EXTRA_MOVIE_OBJ, movie)
+        }
+        startActivity(intent)
     }
 
 
@@ -206,27 +207,13 @@ class MoviesFragment : Fragment(), MoviesContract.View {
             }
             with(rowView.findViewById<TextView>(R.id.genres)) {
                 if(movie.genre_ids_text!=null)
-                    text=movie.genre_ids_text.joinToString()
+                    text=movie.genre_ids_text?.joinToString().orEmpty()
             }
             with(rowView.findViewById<TextView>(R.id.releaseDate)) {
                 text = "release: ${movie.release_date}"
             }
 
-//            with(rowView.findViewById<CheckBox>(R.id.complete)) {
-//                // Active/completed task UI
-//                isChecked = task.isCompleted
-//                val rowViewBackground =
-//                        if (task.isCompleted) R.drawable.list_completed_touch_feedback
-//                        else R.drawable.touch_feedback
-//                rowView.setBackgroundResource(rowViewBackground)
-//                setOnClickListener {
-//                    if (!task.isCompleted) {
-//                        itemListener.onCompleteTaskClick(task)
-//                    } else {
-//                        itemListener.onActivateTaskClick(task)
-//                    }
-//                }
-//            }
+
             rowView.setOnClickListener { itemListener.onMovieClick(movie) }
             if(count-5==i){
                 itemListener.loadMoreMovies((count/20)+1)

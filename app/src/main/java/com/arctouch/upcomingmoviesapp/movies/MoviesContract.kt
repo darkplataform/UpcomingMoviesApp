@@ -12,30 +12,17 @@ interface MoviesContract {
 
         fun showMovies(movies: List<Movie>, page:Int)
 
-
-        fun showMovieDetailsUi(movieId: String)
-
+        fun showMovieDetailsUi(movie: Movie)
 
         fun showLoadingMoviesError()
 
         fun showNoMovies()
 
-//        fun showActiveFilterLabel()
-//
-//        fun showCompletedFilterLabel()
-//
-//        fun showAllFilterLabel()
-//
-//        fun showFilteringPopUpMenu()
     }
 
     interface Presenter : BasePresenter {
 
-        //var currentFiltering: TasksFilterType
-
-
         fun loadMovies(page: Int)
-
 
         fun openMovieDetails(requestedMovie: Movie)
 

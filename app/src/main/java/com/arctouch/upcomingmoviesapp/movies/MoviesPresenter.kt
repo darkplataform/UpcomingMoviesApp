@@ -34,12 +34,11 @@ import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 /**
- * Listens to user actions from the UI ([TasksFragment]), retrieves the data and updates the
+ * Listens to user actions from the UI ([MoviesFragment]), retrieves the data and updates the
  * UI as required.
  */
 class MoviesPresenter(private val moviesView: MoviesContract.View,
-                      private val moviesActivity: MoviesActivity,
-                      private val uiContext: CoroutineContext = Main)
+                      private val moviesActivity: MoviesActivity)
     : MoviesContract.Presenter {
 
     //override var currentFiltering = TasksFilterType.ALL_TASKS
@@ -68,16 +67,13 @@ class MoviesPresenter(private val moviesView: MoviesContract.View,
     }
 
     /**
-     * @param forceUpdate   Pass in true to refresh the data in the [TasksDataSource]
      * *
      * @param showLoadingUI Pass in true to display a loading icon in the UI
+     * *
+      * @param page   Pass in true to get specific page
      */
     private fun loadMovies(showLoadingUI: Boolean, page:Int) {
 
-
-        // The network request might be handled in a different thread so make sure Espresso knows
-        // that the app is busy until the response is handled.
-        //EspressoIdlingResource.increment() // App is busy until further notice
 
         val result = TMdb.getLastMovies(SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().time),page).observe(moviesActivity, Observer {
             when (it?.status) {
@@ -105,33 +101,31 @@ class MoviesPresenter(private val moviesView: MoviesContract.View,
 
     private fun processMovies(movies: List<Movie>?, page:Int) {
         if (movies ==null || movies.isEmpty()) {
-            // Show a message indicating there are no tasks for that filter type.
-            processEmptyTasks()
+            // Show a message indicating there are no movies e.
+            processEmptyMovies()
         } else {
-            // Show the list of tasks
+            // Show the list of movies
             for (movie in movies){
                 for(id in movie.genre_ids){
                     if (movie.genre_ids_text==null) movie.genre_ids_text= arrayListOf()
                     var genre=listGenres.find { genre -> genre.id==id }
                     if(genre!=null)
-                        movie.genre_ids_text.add(genre.name)
+                        movie.genre_ids_text?.add(genre.name)
                 }
             }
             moviesView.showMovies(movies, page)
-            // Set the filter label's text.
-
         }
     }
 
 
-    private fun processEmptyTasks() {
+    private fun processEmptyMovies() {
         moviesView.showNoMovies()
     }
 
 
 
     override fun openMovieDetails(requestedMovie: Movie) {
-        moviesView.showMovieDetailsUi(requestedMovie.id)
+        moviesView.showMovieDetailsUi(requestedMovie)
     }
 
 
