@@ -41,8 +41,6 @@ class MoviesPresenter(private val moviesView: MoviesContract.View,
                       private val moviesActivity: MoviesActivity)
     : MoviesContract.Presenter {
 
-    //override var currentFiltering = TasksFilterType.ALL_TASKS
-
     private var firstLoad = true
     private lateinit var listGenres:List<Genre>
 

@@ -35,6 +35,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
+import com.arctouch.upcomingmoviesapp.BuildConfig
 import com.arctouch.upcomingmoviesapp.R
 import com.arctouch.upcomingmoviesapp.data.Movie
 import com.arctouch.upcomingmoviesapp.moviesdetail.MoviesDetailActivity
@@ -198,7 +199,7 @@ class MoviesFragment : Fragment(), MoviesContract.View {
                     .inflate(R.layout.movie_item, viewGroup, false)
 
             with(rowView.findViewById<ImageView>(R.id.poster)) {
-                Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movie.poster_path)
+                Picasso.get().load(BuildConfig.tmdbUrlImages+movie.poster_path)
                     .error(R.drawable.ic_no_movies_in_24dp).into(this)
             }
 

@@ -16,6 +16,9 @@ android {
     }
     buildTypes {
         debug {
+            buildConfigField 'String', "tmdbApiKey", tmdb_api_key
+            buildConfigField 'String', "tmdbUrl", tmdb_url
+            buildConfigField 'String', "tmdbUrlImages", tmdb_url_images
             minifyEnabled false
             // Uses new built-in shrinker http://tools.android.com/tech-docs/new-build-system/built-in-shrinker
             useProguard false
@@ -23,6 +26,9 @@ android {
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
         }
         release {
+            buildConfigField 'String', "tmdbApiKey", tmdb_api_key
+            buildConfigField 'String', "tmdbUrl", tmdb_url
+            buildConfigField 'String', "tmdbUrlImages", tmdb_url_images
             minifyEnabled false
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

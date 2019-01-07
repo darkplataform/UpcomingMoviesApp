@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MoviesActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var tasksPresenter: MoviesPresenter
+    private lateinit var moviesPresenter: MoviesPresenter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +46,7 @@ class MoviesActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         }
 
         // Create the presenter
-        tasksPresenter = MoviesPresenter(moviesFragment,
+        moviesPresenter = MoviesPresenter(moviesFragment,
                 this).apply {
             // Load previously saved state, if available.
             if (savedInstanceState != null) {

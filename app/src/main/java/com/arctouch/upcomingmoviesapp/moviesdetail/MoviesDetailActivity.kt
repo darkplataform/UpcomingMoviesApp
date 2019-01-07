@@ -5,13 +5,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import com.arctouch.upcomingmoviesapp.BuildConfig
 import com.arctouch.upcomingmoviesapp.R
 import com.arctouch.upcomingmoviesapp.data.Movie
 import kotlinx.android.synthetic.main.activity_movies_detail.*
 
 class MoviesDetailActivity : AppCompatActivity() {
 
-    lateinit var movieObj:Movie
+    private lateinit var movieObj:Movie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,16 +20,16 @@ class MoviesDetailActivity : AppCompatActivity() {
         //setSupportActionBar(toolbar)
 
 
-        movieObj= intent.getParcelableExtra<Movie>(EXTRA_MOVIE_OBJ)
+        movieObj= intent.getParcelableExtra(EXTRA_MOVIE_OBJ)
 
         with(findViewById<ImageView>(R.id.poster)) {
-            com.squareup.picasso.Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movieObj.poster_path)
+            com.squareup.picasso.Picasso.get().load(BuildConfig.tmdbUrlImages+movieObj.poster_path)
                 .error(com.arctouch.upcomingmoviesapp.R.drawable.ic_no_movies_in_24dp).into(this)
         }
 
 
         with(findViewById<ImageView>(R.id.backdrop)) {
-            com.squareup.picasso.Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movieObj.backdrop_path)
+            com.squareup.picasso.Picasso.get().load(BuildConfig.tmdbUrlImages+movieObj.backdrop_path)
                 .error(com.arctouch.upcomingmoviesapp.R.drawable.ic_no_movies_in_24dp).into(this)
         }
 

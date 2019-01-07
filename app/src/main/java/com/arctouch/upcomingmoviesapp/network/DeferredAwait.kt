@@ -34,7 +34,6 @@ suspend fun <T : Any> Deferred<Response<T>>.awaitResult(): Result<T> {
                 )
             }
             catch (e:Throwable){
-                //  Log.e("DeferredAwait",e.message)
                 continuation.resume(Result.Exception(e))
             }
 
